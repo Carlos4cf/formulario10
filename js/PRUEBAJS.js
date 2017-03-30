@@ -11,7 +11,8 @@ var respuestasRadio=[];
 var respuestasRadio1=[];
 var respuestaRadio=null;
 var respuestaText1=null;
-
+var xmlDoc=null;
+var xslDoc=null;
 var respuestaSelectMultipleProfe=[];
 
 //var timeout, min, seg=59, tiempo = $('#tiempo');
@@ -58,6 +59,7 @@ var second = 01;
 
 
    inicializar();
+   if(comprobar()){
    lasnotas();
    corregirText();
    corregirText1();
@@ -75,6 +77,7 @@ var second = 01;
    resultado();  
 
    onsubmit=window.location = "#tituloInput"; window.scrollTo(0,0);
+ }
   
    return false;
  }
@@ -115,60 +118,48 @@ function gestionarXml(dadesXml){
 
  //SELECT
  //Recuperamos el título y las opciones, guardamos la respuesta correcta
- var tituloSelect=xmlDoc.getElementsByTagName("title")[9].innerHTML;
- var opcionesSelect = [];
- var nopt = xmlDoc.getElementById("CJP010").getElementsByTagName('option').length;
-  for (i = 0; i < nopt; i++) { 
-    opcionesSelect[i] = xmlDoc.getElementById("CJP010").getElementsByTagName('option')[i].innerHTML;
- }
- ponerDatosSelectHtml(tituloSelect,opcionesSelect);
 
- respuestaSelect=xmlDoc.getElementById("CJP010").getElementsByTagName("answer")[0].innerHTML;
+  var tituloSelect=xmlDoc.getElementsByTagName("title")[8].innerHTML;
+  var xpath="/questions/question[@id='CJP009']/option";
+ var nodesSelect =  xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null);
+ ponerDatosSelectHtml(tituloSelect,nodesSelect);
+ respuestaSelect=xmlDoc.getElementById("CJP009").getElementsByTagName("answer")[0].innerHTML;
+ 
 
 // SELECT1
-  var tituloSelect=xmlDoc.getElementsByTagName("title")[8].innerHTML;
- var opcionesSelect = [];
- var nopt = xmlDoc.getElementById("CJP009").getElementsByTagName('option').length;
-  for (i = 0; i < nopt; i++) { 
-    opcionesSelect[i] = xmlDoc.getElementById("CJP009").getElementsByTagName('option')[i].innerHTML;
- }
- ponerDatosSelectHtml1(tituloSelect,opcionesSelect);
- respuestaSelect1=parseInt(xmlDoc.getElementsByTagName("answer")[1].innerHTML);
-
+ 
+var tituloSelect1=xmlDoc.getElementsByTagName("title")[9].innerHTML;
+  var xpath="/questions/question[@id='CJP010']/option";
+  var nodesSelect1 = xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null);
+ ponerDatosSelectHtml1(tituloSelect1,nodesSelect1);
+ respuestaSelect1=xmlDoc.getElementById("CJP010").getElementsByTagName("answer")[0].innerHTML;
  //CHECKBOX
  //Recuperamos el título y las opciones, guardamos las respuestas correctas
  var tituloCheckbox = xmlDoc.getElementsByTagName("title")[0].innerHTML;
- var opcionesCheckbox = [];
- var nopt = xmlDoc.getElementById('CJP001').getElementsByTagName('option').length;
- for (i = 0; i < nopt; i++) { 
-    opcionesCheckbox[i]=xmlDoc.getElementById('CJP001').getElementsByTagName('option')[i].innerHTML;
- }  
- ponerDatosCheckboxHtml(tituloCheckbox,opcionesCheckbox);
+var xpath="/questions/question[@id='CJP001']/option";
+ var nodesCheckbox = xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null); 
+ 
+ ponerDatosCheckboxHtml(tituloCheckbox,nodesCheckbox);
  var nres = xmlDoc.getElementById('CJP001').getElementsByTagName('answer').length;
  for (i = 0; i < nres; i++) { 
   respuestasCheckbox[i]=xmlDoc.getElementById('CJP001').getElementsByTagName("answer")[i].innerHTML;
  }
 //CHECKBOX1
-  var tituloCheckbox = xmlDoc.getElementsByTagName("title")[1].innerHTML;
- var opcionesCheckbox = [];
- var nopt = xmlDoc.getElementById('CJP002').getElementsByTagName('option').length;
- for (i = 0; i < nopt; i++) { 
-    opcionesCheckbox[i]=xmlDoc.getElementById('CJP002').getElementsByTagName('option')[i].innerHTML;
- }  
- ponerDatosCheckboxHtml1(tituloCheckbox,opcionesCheckbox);
- var nres = xmlDoc.getElementById('CJP002').getElementsByTagName('answer').length;
- for (i = 0; i < nres; i++) { 
+  var tituloCheckbox1 = xmlDoc.getElementsByTagName("title")[1].innerHTML;
+var xpath="/questions/question[@id='CJP002']/option";
+ var nodesCheckbox1 = xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null); 
+ 
+ ponerDatosCheckboxHtml1(tituloCheckbox1,nodesCheckbox1);
+ var nres1 = xmlDoc.getElementById('CJP002').getElementsByTagName('answer').length;
+ for (i = 0; i < nres1; i++) { 
   respuestasCheckbox1[i]=xmlDoc.getElementById('CJP002').getElementsByTagName("answer")[i].innerHTML;
  }
 //SELECT multiple
  //Recuperamos el título y las opciones, guardamos la respuesta correcta
  var tituloSelect=xmlDoc.getElementsByTagName("title")[4].innerHTML;
- var opcionesSelect = [];
- var nopt = xmlDoc.getElementById("CJP005").getElementsByTagName('option').length;
-  for (i = 0; i < nopt; i++) { 
-    opcionesSelect[i] = xmlDoc.getElementById("CJP005").getElementsByTagName('option')[i].innerHTML;
- }
- ponerDatosSelectMultipleHtml(tituloSelect,opcionesSelect);
+ var xpath="/questions/question[@id='CJP005']/option";
+ var nodesMultiple= xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null);
+ ponerDatosSelectMultipleHtml(tituloSelect,nodesMultiple);
  for (i = 0; i < nres; i++) { 
   respuestaSelectMultiple[i]=xmlDoc.getElementById('CJP005').getElementsByTagName("answer")[i].innerHTML;
  }
@@ -177,12 +168,10 @@ function gestionarXml(dadesXml){
  //SELECT multiple1
  //Recuperamos el título y las opciones, guardamos la respuesta correcta
  var tituloSelect=xmlDoc.getElementsByTagName("title")[5].innerHTML;
- var opcionesSelect = [];
- var nopt = xmlDoc.getElementById("CJP006").getElementsByTagName('option').length;
-  for (i = 0; i < nopt; i++) { 
-    opcionesSelect[i] = xmlDoc.getElementById("CJP006").getElementsByTagName('option')[i].innerHTML;
- }
- ponerDatosSelectMultiple1Html(tituloSelect,opcionesSelect);
+var xpath="/questions/question[@id='CJP006']/option";
+ var nodesMultiple1= xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null); 
+ 
+ ponerDatosSelectMultiple1Html(tituloSelect,nodesMultiple1);
  for (i = 0; i < nres; i++) { 
   respuestaSelectMultiple1[i]=xmlDoc.getElementById('CJP006').getElementsByTagName("answer")[i].innerHTML;
  }
@@ -191,12 +180,10 @@ function gestionarXml(dadesXml){
  //RADIO
  //Recuperamos el título y las opciones, guardamos las respuestas correctas
  var tituloCheckbox = xmlDoc.getElementsByTagName("title")[6].innerHTML;
- var opcionesCheckbox = [];
- var nopt = xmlDoc.getElementById('CJP007').getElementsByTagName('option').length;
- for (i = 0; i < nopt; i++) { 
-    opcionesCheckbox[i]=xmlDoc.getElementById('CJP007').getElementsByTagName('option')[i].innerHTML;
- }  
- ponerDatosRadioHtml(tituloCheckbox,opcionesCheckbox);
+var xpath="/questions/question[@id='CJP007']/option";
+ var nodesRadio = xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null); 
+  
+ ponerDatosRadioHtml(tituloCheckbox,nodesRadio);
  var nres = xmlDoc.getElementById('CJP007').getElementsByTagName('answer').length;
  for (i = 0; i < nres; i++) { 
   respuestasRadio[i]=xmlDoc.getElementById('CJP007').getElementsByTagName("answer")[i].innerHTML;
@@ -204,12 +191,10 @@ function gestionarXml(dadesXml){
   //RADIO1
  //Recuperamos el título y las opciones, guardamos las respuestas correctas
  var tituloCheckbox = xmlDoc.getElementsByTagName("title")[7].innerHTML;
- var opcionesCheckbox = [];
- var nopt = xmlDoc.getElementById('CJP008').getElementsByTagName('option').length;
- for (i = 0; i < nopt; i++) { 
-    opcionesCheckbox[i]=xmlDoc.getElementById('CJP008').getElementsByTagName('option')[i].innerHTML;
- }  
- ponerDatosRadio1Html(tituloCheckbox,opcionesCheckbox);
+var xpath="/questions/question[@id='CJP008']/option";
+ var nodesRadio1 = xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null); 
+
+ ponerDatosRadio1Html(tituloCheckbox,nodesRadio1);
  var nres = xmlDoc.getElementById('CJP008').getElementsByTagName('answer').length;
  for (i = 0; i < nres; i++) { 
   respuestasRadio1[i]=xmlDoc.getElementById('CJP008').getElementsByTagName("answer")[i].innerHTML;
@@ -277,8 +262,8 @@ function corregirSelect1(){
 //multiple
 function corregirSelectMultiple(){
 //respuestaSelect=xmlDoc.getElementById("CJP009").getElementsByTagName('answer')[0];
-
-  var sel = formElement.elements[6];  
+var sel=[];
+   sel = formElement.elements[6];  
   if (sel.selectedIndex==respuestaSelectMultiple /*&& sel.selectedIndex==respuestaSelectMultipleA*/) {
    darRespuestaHtml1("P7: CORRECTA");
    nota +=1;
@@ -468,112 +453,169 @@ function ponerDatosInputHtml1(t){
  document.getElementById("tituloInput1").innerHTML = t;
 }
 //selectMultiple
-function ponerDatosSelectMultipleHtml(t,opt){
+function ponerDatosSelectMultipleHtml(t,nodes){
   document.getElementById("tituloSelectMultiple").innerHTML=t;
   var select = document.getElementsByTagName("select")[2];// opciones
-  for (i = 0; i < opt.length; i++) { 
+  var result =nodes.iterateNext();
+  var i=0;
+     while (result) { 
     var option = document.createElement("option");
-    option.text = opt[i];
-    option.value=i+1;
+    option.text = result.innerHTML;
+    option.value=i+1;i++;
     select.options.add(option);
+      result = nodes.iterateNext();
  }  
 }
 //selecctmultiple1
-function ponerDatosSelectMultiple1Html(t,opt){
+function ponerDatosSelectMultiple1Html(t,nodes){
   document.getElementById("tituloSelectMultiple1").innerHTML=t;
   var select = document.getElementsByTagName("select")[3];// opciones
-  for (i = 0; i < opt.length; i++) { 
+  var result =nodes.iterateNext();
+  var i=0;
+     while (result) {
     var option = document.createElement("option");
-    option.text = opt[i];
-    option.value=i+1;
+    option.text = result.innerHTML;
+    option.value=i+1;i++;
     select.options.add(option);
+      result = nodes.iterateNext();
  }  
 }
+
+
+/*
+function ponerDatosSelectHtml(t,nodesSelect){
+  var txt="";
+
+  //var xmlDoc = dadesXml.responseXML;
+  document.getElementById("tituloSelect").innerHTML=t;
+  var xpath="/questions/question[@id='CJP010']/option";
+  var nodes = xmlDoc.evaluate(xpath, xmlDoc, null, XPathResult.ANY_TYPE, null);
+  var result = nodes.iterateNext();
+    i=0;
+  while (result) {
+    var option = document.createElement("option");
+    option.text = result.innerHTML;
+    option.value=i+1; i++;
+    select.options.add(option);
+       txt += result.innerHTML + "<br>";
+       result = nodes.iterateNext();
+      
+  } 
+  document.getElementById('option').innerHTML = txt;
+
+}
+*/
 //select
-function ponerDatosSelectHtml(t,opt){
+
+function ponerDatosSelectHtml(t,nodes){
+  var txt="";
   document.getElementById("tituloSelect").innerHTML=t;
   var select = document.getElementsByTagName("select")[0];// opciones
-  for (i = 0; i < opt.length; i++) { 
+  var result =nodes.iterateNext();
+  var i=0;
+     while (result) {
     var option = document.createElement("option");
-    option.text = opt[i];
-    option.value=i+1;
+    option.text = result.innerHTML;
+    option.value=i+1; i++;
     select.options.add(option);
+       txt += result.innerHTML + "<br>";
+       result = nodes.iterateNext();
  }  
+
 }
+
 //select
-function ponerDatosSelectHtml1(t,opt){
-  document.getElementById("tituloSelect1").innerHTML=t;
+function ponerDatosSelectHtml1(t1,nodes1){
+  var txt="";
+  document.getElementById("tituloSelect1").innerHTML=t1;
   var select = document.getElementsByTagName("select")[1];// opciones y posibilidades
-  for (i = 0; i < opt.length; i++) { 
+ var result =nodes1.iterateNext();
+ var i=0;
+    while (result) {
     var option = document.createElement("option");
-    option.text = opt[i];
-    option.value=i+1;
+    option.text = result.innerHTML;
+    option.value=i+1; i++;
     select.options.add(option);
+       txt += result.innerHTML + "<br>";
+       result = nodes1.iterateNext();
  }  
+
 }
 //checkbox
-function ponerDatosCheckboxHtml(t,opt){
+function ponerDatosCheckboxHtml(t,nodes){
  var checkboxContainer=document.getElementById('checkboxDiv');
  document.getElementById('tituloCheckbox').innerHTML = t;
- for (i = 0; i < opt.length; i++) { 
+ var result=nodes.iterateNext();
+ i=0;
+ while(result){
     var input = document.createElement("input");
     var label = document.createElement("label");
-    label.innerHTML=opt[i];
+    label.innerHTML=result.innerHTML;
     label.setAttribute("for", "RATON_"+i);
     input.type="checkbox";
     input.name="RATON";
-    input.id="RATON_"+i;;    
+    input.id="RATON_"+i;i++;    
     checkboxContainer.appendChild(input);
     checkboxContainer.appendChild(label);
+    result=nodes.iterateNext();
  }  
 }
 //checkbox1
-function ponerDatosCheckboxHtml1(t,opt){
+function ponerDatosCheckboxHtml1(t,nodes){
  var checkboxContainer=document.getElementById('checkboxDiv1');
  document.getElementById('tituloCheckbox1').innerHTML = t;
- for (i = 0; i < opt.length; i++) { 
+ var result=nodes.iterateNext();
+ i=0;
+while(result){ 
     var input = document.createElement("input");
     var label = document.createElement("label");
-    label.innerHTML=opt[i];
+    label.innerHTML=result.innerHTML;
     label.setAttribute("for", "FLOR_"+i);
     input.type="checkbox";
     input.name="FLOR";
-    input.id="FLOR_"+i;;    
+    input.id="FLOR_"+i;i++;    
     checkboxContainer.appendChild(input);
     checkboxContainer.appendChild(label);
+    result=nodes.iterateNext();
  }  
 }
 //radio
-function ponerDatosRadioHtml(t,opt){
+function ponerDatosRadioHtml(t,nodes){
  var checkboxContainer=document.getElementById('checkboxDiv2');
  document.getElementById('tituloRadio').innerHTML = t;
- for (i = 0; i < opt.length; i++) { 
+var result=nodes.iterateNext();
+ i=0;
+while(result){ 
     var input = document.createElement("input");
     var label = document.createElement("label");
-    label.innerHTML=opt[i];
+    label.innerHTML=result.innerHTML;
     label.setAttribute("for", "color_"+i);
     input.type="radio";
     input.name="color";
-    input.id="color_"+i;;    
+    input.id="color_"+i;i++;    
     checkboxContainer.appendChild(input);
     checkboxContainer.appendChild(label);
+    result=nodes.iterateNext();
  }  
 }
 
 //radio1
-function ponerDatosRadio1Html(t,opt){
+function ponerDatosRadio1Html(t,nodes){
  var checkboxContainer3=document.getElementById('checkboxDiv3');
  document.getElementById('tituloRadio1').innerHTML = t;
- for (i = 0; i < opt.length; i++) { 
+var result=nodes.iterateNext();
+ i=0;
+while(result){
     var input = document.createElement("input");
     var label = document.createElement("label");
-    label.innerHTML=opt[i];
+    label.innerHTML=result.innerHTML;
     label.setAttribute("for", "POKEMON_"+i);
     input.type="radio";
     input.name="POKEMON";
-    input.id="POKEMON_"+i;;    
+    input.id="POKEMON_"+i;i++;    
     checkboxContainer3.appendChild(input);
     checkboxContainer3.appendChild(label);
+    result=nodes.iterateNext();
  }  
 }
 
@@ -632,4 +674,75 @@ function resultado(){
 }
 //****************************************************************************************************
 
+ function comprobar(){
+   var f=formElement;
+   var checked=false;
+   var checked2=false;
+   var checked3=false;
+   var checked4=false;
+   for (i = 0; i < f.color.length; i++) {  //"color" es el nombre asignado a todos los checkbox
+      if (f.color[i].checked) checked=true;
+   }
+     for (i = 0; i < f.FLOR.length; i++) {  //"color" es el nombre asignado a todos los checkbox
+      if (f.FLOR[i].checked) checked2=true;
+   }
+     for (i = 0; i < f.RATON.length; i++) {  //"color" es el nombre asignado a todos los checkbox
+      if (f.RATON[i].checked) checked3=true;
+   }
+     for (i = 0; i < f.POKEMON.length; i++) {  //"color" es el nombre asignado a todos los checkbox
+      if (f.POKEMON[i].checked) checked4=true;
+   }
+
+ var sel=document.getElementById('sel');
  
+   if ((typeof(sel))== undefined || (sel==null)) {
+    f.elements[6].focus();
+    alert("Selecciona una opción multiple1");
+    return false;
+   } 
+  
+  var sel1=document.getElementById('sel1');
+   if ((typeof(sel1))== undefined || (sel1==null)) {
+   f.elements[7].focus();
+    alert("Selecciona una opción multiple2");
+    return false;
+   }  
+
+
+   if (f.elements[0].value=="") {
+    //recomendamos focus para input y select "normal", scrollIntoView para el título de select múltiple, radio y checkbox
+    f.elements[0].focus(); 
+    alert("Escribe una respuesta");
+    return false;
+   } if (f.elements[1].value=="") {
+    //recomendamos focus para input y select "normal", scrollIntoView para el título de select múltiple, radio y checkbox
+    f.elements[1].focus(); 
+    alert("Escribe una respuesta");
+    return false;
+   } else if (f.elements[1].selectedIndex==0) {
+    f.elements[2].focus();
+    alert("Selecciona una opción");
+    return false;
+   } if (!checked) {    
+    document.getElementsByTagName("h3")[8].scrollIntoView();
+    alert("Selecciona una opción del radio");
+    return false;
+
+   } if (!checked2) {    
+    document.getElementsByTagName("h3")[2].scrollIntoView();
+    alert("Selecciona una opción del checkbox");
+    return false;
+
+   } if (!checked3) {    
+    document.getElementsByTagName("h3")[2].scrollIntoView();
+    alert("Selecciona una opción del checkbox");
+    return false;
+
+   } if (!checked4) {    
+    document.getElementsByTagName("h3")[9].scrollIntoView();
+    alert("Selecciona una opción del radio");
+    return false;
+
+   } else  return true;
+}
+
